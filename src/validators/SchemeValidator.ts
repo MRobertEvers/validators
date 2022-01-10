@@ -2,7 +2,13 @@ import { pickMap } from '../utils/pick-map';
 import { Scheme } from './support';
 import { Validator, ValidatorErrorDescription, ValidatorResult } from './Validator';
 
-export class SchemeValidator<T> implements Validator<Scheme<T>> {
+function keysOfScheme<T>(scheme: T): Array<keyof T> {
+	return Object.keys(scheme) as any;
+}
+
+export class SchemeValidator<T extends Record<string, Validator<any>>>
+	implements Validator<Scheme<T>>
+{
 	scheme: T;
 	constructor(scheme: T) {
 		this.scheme = scheme;
@@ -22,7 +28,7 @@ export class SchemeValidator<T> implements Validator<Scheme<T>> {
 		const coersion = Object.entries(this.scheme).reduce((m, [key, val]) => {
 			m[key] = val.coerce(field[key]);
 			return m;
-		}, {} as Scheme<T>);
+		}, {} as Record<string, T>);
 
 		if (Object.values(coersion).find((c) => typeof c === 'undefined')) {
 			return;
@@ -44,7 +50,8 @@ export class SchemeValidator<T> implements Validator<Scheme<T>> {
 			});
 		}
 
-		const picked = pickMap(field, Object.keys(this.scheme));
+		const keys = keysOfScheme(this.scheme);
+		const picked = pickMap(field, keys);
 
 		const errors: Array<ValidatorErrorDescription> = [];
 
@@ -56,7 +63,8 @@ export class SchemeValidator<T> implements Validator<Scheme<T>> {
 			}
 		}
 
-		if (errors.length !== 0) {
+		const coerced = this.coerce(picked);
+		if (errors.length !== 0 || typeof coerced === 'undefined') {
 			return ValidatorResult.error({
 				errors: [
 					{
@@ -69,7 +77,7 @@ export class SchemeValidator<T> implements Validator<Scheme<T>> {
 		}
 
 		return ValidatorResult.success({
-			coerced: this.coerce(picked)
+			coerced: coerced
 		});
 	}
 }

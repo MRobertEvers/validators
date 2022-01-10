@@ -1,0 +1,14 @@
+{
+	"compilerOptions": {
+		"outDir": "./build",
+		"sourceMap": true,
+		"module": "CommonJS",
+		"moduleResolution": "node",
+		"esModuleInterop": true,
+		"allowJs": true,
+		"target": "ES2017",
+		"strict": true
+	},
+	"include": ["src/**/*", "tools/**/*", "test/**/*"],
+	"exclude": ["node_modules"]
+}

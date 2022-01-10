@@ -1,7 +1,7 @@
 import { AnyOfScheme, Coerced } from './support';
 import { Validator, ValidatorErrorDescription, ValidatorResult } from './Validator';
 
-export class AnyOfValidator<T> implements Validator<AnyOfScheme<T>> {
+export class AnyOfValidator<T extends Array<Validator<any>>> implements Validator<AnyOfScheme<T>> {
 	anyOf: T;
 
 	constructor(anyOfScheme: T) {
@@ -23,7 +23,10 @@ export class AnyOfValidator<T> implements Validator<AnyOfScheme<T>> {
 		}
 	}
 
-	validate(fieldName: string, field: any): ValidatorResult<Coerced<T[keyof T]>> {
+	validate(
+		fieldName: string,
+		field: any
+	): ValidatorResult<Exclude<Coerced<T[keyof T]>, undefined>> {
 		let coerced;
 		let errors: Array<ValidatorErrorDescription> = [];
 		for (const validator of Object.values(this.anyOf)) {
@@ -32,7 +35,7 @@ export class AnyOfValidator<T> implements Validator<AnyOfScheme<T>> {
 				errors.push(...result.errors);
 			} else {
 				errors = [];
-				coerced = result.coerced;
+				coerced = result.asCoerced();
 				break;
 			}
 		}

@@ -18,7 +18,7 @@ export class OptionalValidator<T> implements Validator<T | null> {
 		}
 	}
 
-	validate(fieldName: string, field: any): ValidatorResult<T> {
+	validate(fieldName: string, field: any): ValidatorResult<T | null> {
 		if (typeof field === 'undefined') {
 			return ValidatorResult.success({
 				coerced: null

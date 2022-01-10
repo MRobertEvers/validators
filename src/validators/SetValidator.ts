@@ -2,7 +2,7 @@ import { Validator, ValidatorResult } from './Validator';
 
 export class SetValidator<T> implements Validator<T> {
 	valid: T[];
-	constructor(...args: T[]) {
+	constructor(args: T[]) {
 		this.valid = args;
 	}
 
@@ -33,7 +33,7 @@ export class SetValidator<T> implements Validator<T> {
 		}
 
 		return ValidatorResult.success({
-			coerced: this.coerce(field)
+			coerced: this.coerce(field)!
 		});
 	}
 }

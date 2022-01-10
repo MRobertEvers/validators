@@ -12,12 +12,12 @@ export class CoercionError extends Error {
 }
 
 export class ValidatorResult<T> {
-	coerced?: T;
+	private coerced?: T;
 	errors: Array<ValidatorErrorDescription>;
 
 	private constructor(args: { coerced?: T; errors?: Array<ValidatorErrorDescription> }) {
 		this.coerced = args.coerced;
-		this.errors = args.errors;
+		this.errors = args.errors || [];
 	}
 
 	isValid(): boolean {

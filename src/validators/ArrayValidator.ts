@@ -44,7 +44,8 @@ export class ArrayValidator<T> implements Validator<Array<T>> {
 			}
 		}
 
-		if (errors.length !== 0) {
+		const coerced = this.coerce(field);
+		if (errors.length !== 0 || typeof coerced === 'undefined') {
 			return ValidatorResult.error({
 				errors: [
 					{
@@ -58,7 +59,7 @@ export class ArrayValidator<T> implements Validator<Array<T>> {
 		}
 
 		return ValidatorResult.success({
-			coerced: this.coerce(field)
+			coerced: coerced
 		});
 	}
 }
