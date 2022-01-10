@@ -1,8 +1,8 @@
 import { Validator, ValidatorResult } from './Validator';
 
 export class SetValidator<T> implements Validator<T> {
-	valid: T[];
-	constructor(args: T[]) {
+	valid: readonly T[];
+	constructor(args: readonly T[]) {
 		this.valid = args;
 	}
 

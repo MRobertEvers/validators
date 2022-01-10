@@ -101,7 +101,7 @@ describe('Validators', () => {
 	test('Array', () => {
 		const validator = new ArrayValidator(
 			new AnyOfValidator([
-				new SetValidator(['dog' as const, 'info' as const, 1 as const, 2 as const]),
+				new SetValidator(['dog', 'info', 1, 2] as const),
 				new SchemeValidator({
 					dog: new BooleanValidator(),
 					name: new StringValidator()
