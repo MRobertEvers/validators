@@ -10,10 +10,8 @@
 	"author": "",
 	"license": "ISC",
 	"devDependencies": {
+		"@types/jest": "^27.4.0",
 		"jest": "^27.4.7",
 		"ts-jest": "^27.1.2"
-	},
-	"dependencies": {
-		"@types/jest": "^27.4.0"
 	}
 }
