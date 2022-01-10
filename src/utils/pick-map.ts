@@ -4,7 +4,7 @@ function hasKey<T>(obj: T, key: any): key is keyof T {
 
 type ValuesOf<T extends any[]> = T[number];
 
-export function pickMap<T, Key extends Array<string>>(
+export function pickMap<T, Key extends Array<any>>(
 	obj: T,
 	keys: Key
 ): {

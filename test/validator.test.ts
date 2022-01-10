@@ -3,6 +3,7 @@ import { ArrayValidator } from '../src/validators/ArrayValidator';
 import { BooleanValidator, NumberValidator, StringValidator } from '../src/validators/Primitive';
 import { SchemeValidator } from '../src/validators/SchemeValidator';
 import { SetValidator } from '../src/validators/SetValidator';
+import { CoercionError } from '../src/validators/Validator';
 
 describe('Validators', () => {
 	test('Scheme One', () => {
@@ -134,5 +135,29 @@ describe('Validators', () => {
 
 		coerced = result.asCoerced();
 		expect(coerced[0]).toBe('dog');
+	});
+
+	test('Exception', () => {
+		const validator = new SchemeValidator({
+			id: new NumberValidator({ allowCoercion: true }),
+			arg_field: new SetValidator(['dog' as const, 'cat' as const, 1 as const, 2 as const])
+		});
+
+		const resultOne = validator.validate('query', { id: '1' });
+
+		// Throws CoercionError. Missing 'arg_field'.
+		try {
+			const coercedOne = resultOne.asCoerced();
+		} catch (e) {
+			if (e instanceof CoercionError) {
+				console.log(resultOne.errors);
+				expect(true).toBe(true);
+				return;
+			} else {
+				throw e;
+			}
+		}
+
+		expect(true).toBe(false);
 	});
 });
