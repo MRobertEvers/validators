@@ -1,12 +1,6 @@
 import { AnyOfValidator } from '../src/validators/AnyOfValidator';
 import { ArrayValidator } from '../src/validators/ArrayValidator';
-import {
-	BooleanValidator,
-	NumberValidator,
-	Primitive,
-	PrimitiveValidator,
-	StringValidator
-} from '../src/validators/Primitive';
+import { BooleanValidator, NumberValidator, StringValidator } from '../src/validators/Primitive';
 import { SchemeValidator } from '../src/validators/SchemeValidator';
 import { SetValidator } from '../src/validators/SetValidator';
 
