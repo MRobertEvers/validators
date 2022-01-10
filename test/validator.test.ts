@@ -1,3 +1,4 @@
+import { pickMap } from '../src/utils/pick-map';
 import { AnyOfValidator } from '../src/validators/AnyOfValidator';
 import { ArrayValidator } from '../src/validators/ArrayValidator';
 import { BooleanValidator, NumberValidator, StringValidator } from '../src/validators/Primitive';
@@ -159,5 +160,19 @@ describe('Validators', () => {
 		}
 
 		expect(true).toBe(false);
+	});
+
+	test('Pick Map', () => {
+		const picked = pickMap(
+			{
+				bill: 51,
+				cody: 23,
+				xie: 24
+			},
+			['bill' as const, 'xong' as const]
+		);
+
+		expect(picked.bill).toBe(51);
+		expect(picked.xong).toBe(undefined);
 	});
 });
